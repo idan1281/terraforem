@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+unset TF_LOG OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_REGION_NAME OS_DOMAIN_NAME OS_PROJECT_NAME OS_PROJECT_DOMAIN_NAME
+unset OS_USER_DOMAIN_NAME ARC_SERVICE_ENDPOINT LYRA_SERVICE_ENDPOINT ARC_BROKER_URL PKI_SERVICE_URL UPDATE_SERVICE_URL CLIENT_OS WORKSTATION_OS
+export TF_LOG=INFO # other options are DEBUG TRACE INFO WARN ERROR
+export CLIENT_OS=linux #Target OS type; Currently supported linux
+export WORKSTATION_OS=darwin #linux for Linux; darwin for mac
+export OS_AUTH_URL=https://identity-3.eu-de-1.cloud.sap:443/v3
+export OS_TENANT_NAME="cc_training"
+export OS_PROJECT_NAME=$OS_TENANT_NAME
+# Your SAP C/I/D username eg., i123456 or d123456 with lowercase c/i/d.
+export OS_USERNAME="c5240533"
+if [ -z $OS_PASSWORD ]; then
+   read -s -p "Enter Your Password:" OS_PASSWD
+   export OS_PASSWORD=$OS_PASSWD
+fi
+export OS_REGION_NAME="eu-de-1" #Other region `au-ap-1`
+export OS_DOMAIN_NAME="monsoon3" #Change your domain to suit
+export OS_PROJECT_DOMAIN_NAME=$OS_DOMAIN_NAME
+export OS_USER_DOMAIN_NAME=$OS_DOMAIN_NAME
+export ARC_SERVICE_ENDPOINT=https://arc.eu-de-1.cloud.sap
+export LYRA_SERVICE_ENDPOINT=https://lyra.eu-de-1.cloud.sap
+export ARC_BROKER_URL=tls://arc-broker.eu-de-1.cloud.sap:8883
+export PKI_SERVICE_URL=https://arc-pki.eu-de-1.cloud.sap
+export UPDATE_SERVICE_URL=https://stable.arc.eu-de-1.cloud.sap
+alias tf="terraform"

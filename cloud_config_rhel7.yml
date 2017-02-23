@@ -1,0 +1,26 @@
+#cloud-config
+  yum_repos:
+    rhel-7-epel:
+        baseurl: http://moo-repo.wdf.sap.corp:8080/mrepo/redhat/7/rhel7epel-x86_64/RPMS.all/
+        enabled: true
+        failovermethod: priority
+        gpgcheck: false
+        name: Red Hat Enterprise Linux 7 Server epel - x86_64
+    rhel-7-server-extras:
+        baseurl: http://moo-repo.wdf.sap.corp:8080/mrepo/redhat/7/rhel7server-x86_64/RPMS.extras/
+        enabled: true
+        failovermethod: priority
+        gpgcheck: false
+        name: Red Hat Enterprise Linux 7 Server extras - x86_64
+    rhel-7-server-optional-rpms:
+        baseurl: http://moo-repo.wdf.sap.corp:8080/mrepo/redhat/7/rhel7server-x86_64/RPMS.optional/
+        enabled: true
+        failovermethod: priority
+        gpgcheck: false
+        name: Red Hat Enterprise Linux 7 Server optional - x86_64
+    rhel-7-server-rpms:
+        baseurl: http://moo-repo.wdf.sap.corp:8080/mrepo/redhat/7/rhel7server-x86_64/RPMS.os/
+        enabled: true
+        failovermethod: priority
+        gpgcheck: false
+        name: Red Hat Enterprise Linux 7 Server OS - x86_64
