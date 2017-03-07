@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Make sure you source the openrc file before executing this script locally
+export INSTANCE_ID=$1
 
 read SRV_NAME < srv_name
 #AUTOMATION_NAME=create_file_2
@@ -24,12 +25,14 @@ AUTOMATION_ID=`awk -v auto_name=$AUTOMATION_NAME '$4==auto_name {print $2}' tmp/
 if [[ -z "$AUTOMATION_ID" ]]; then
   lyra automation create chef --name=$AUTOMATION_NAME --repository=$AUTOMATION_REPO \
     --runlist=$RUNLIST  --timeout=3000 \
-    --attributes-from-file=$ATTRIB_FILE --repository-revision=$REPO_REVISION --log-level=debug 2>&1 | tee tmp/automation_created.txt
+    --attributes-from-file=$ATTRIB_FILE --repository-revision=$REPO_REVISION --log-level=debug  | tee tmp/automation_created.txt
   AUTOMATION_ID=`awk '$2=="id" {print $4}' tmp/automation_created.txt`
 fi
 
+#Add tag to server
+lyra node tag add --node-id $INSTANCE_ID name:s4h-db
 # Execute automation
-lyra automation execute --automation-id $AUTOMATION_ID --selector '@hostname="app"' --watch 2>&1 | tee tmp/run_automation.txt
+lyra automation execute --automation-id $AUTOMATION_ID --selector '@hostname="idan-s4h-db"' --watch 2>&1 | tee tmp/run_automation.txt
 
 # Cleanup
 rm -f tmp/*.txt tmp/token_export.sh

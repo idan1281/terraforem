@@ -14,6 +14,20 @@ variable "ssh_key_path" { default = "/Users/c5240533/.ssh/id_rsa" } # On macOS, 
 provider "openstack" {
 }
 
+#create Disk for DB
+resource "openstack_blockstorage_volume_v2" "vol_db" {
+ region = "${var.region}"
+ name = "vol_db"
+ description = "Volume for DB server"
+ size = 301 # in Giga Byte
+}
+#Create Disk for App
+resource "openstack_blockstorage_volume_v2" "vol_app" {
+ region = "${var.region}"
+ name = "vol_app"
+ description = "Volume for App server"
+ size = 161 # in Giga Byte
+}
 # create an FIP for app
 resource "openstack_networking_floatingip_v2" "app_ip"
 {
@@ -36,6 +50,12 @@ resource "openstack_compute_instance_v2" "db_instance"
   key_pair = "${var.key_pair}"
   security_groups = [
     "default"]
+
+  # Attach the Volume
+  volume {
+    device = "/dev/sdc"
+    volume_id = "${openstack_blockstorage_volume_v2.vol_db.id}"
+}
 
   # Connection details
   connection
@@ -101,14 +121,18 @@ resource "openstack_compute_instance_v2" "db_instance"
 
 resource "openstack_compute_instance_v2" "app_instance"
 {
-  name = "idan-s4happ"
+  name = "idan-s4h-app"
   region = "${var.region}"
   image_name = "${var.image}"
   flavor_id = "40"
   key_pair = "${var.key_pair}"
   security_groups = ["default"]
 
-
+  # Attach the Volume
+  volume {
+    device = "/dev/sdc"
+    volume_id = "${openstack_blockstorage_volume_v2.vol_app.id}"
+}
   # Connection details
   connection 
   {
@@ -181,7 +205,7 @@ resource "null_resource" "app" {
 
   # Execute and watch create_file_2 automation
   provisioner  "local-exec" "call_automation_script" {
-    command = "scripts/automation_create_file_2.sh ${openstack_compute_instance_v2.app_instance.id}"
+    command = "scripts/automation_create_app.sh ${openstack_compute_instance_v2.app_instance.id}"
   }
 }
 

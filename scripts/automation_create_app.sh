@@ -2,11 +2,11 @@
 # Make sure you source the openrc file before executing this script locally
 
 read SRV_NAME < srv_name
-AUTOMATION_NAME=create_file_2
-AUTOMATION_REPO=https://github.wdf.sap.corp/c5240533/rcntree.git
+AUTOMATION_NAME=s4h-app
+AUTOMATION_REPO=https://github.wdf.sap.corp/c5215768/saperp.git
 REPO_REVISION=master
-RUNLIST="recipe[rcntree::create_file]"
-ATTRIB_FILE="/Users/c5240533/dev/terraform/s4h_terraform/scripts/attributes.json"
+RUNLIST="recipe[saperp::install-s4h-app-cal]"
+#ATTRIB_FILE="/Users/c5240533/dev/terraform/s4h_terraform/scripts/attributes.json"
 # authentication using lyra to get token
 lyra authenticate 2>&1 | tee tmp/token_export.sh
 
@@ -28,7 +28,7 @@ if [[ -z "$AUTOMATION_ID" ]]; then
 fi
 
 # Execute automation
-lyra automation execute --automation-id $AUTOMATION_ID --selector '@hostname="app"' --watch 2>&1 | tee tmp/run_automation.txt
+lyra automation execute --automation-id $AUTOMATION_ID --selector '@hostname="idan-s4h-app"' --watch 2>&1 | tee tmp/run_automation.txt
 
 # Cleanup
 rm -f tmp/*.txt tmp/token_export.sh

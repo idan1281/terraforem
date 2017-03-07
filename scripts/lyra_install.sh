@@ -78,7 +78,7 @@ else
 fi
 
 # Clean up previously created INS_ scripts
-rm -f $TMP_DIR/INS_*.sh*
+#rm -f $TMP_DIR/INS_*.sh*
 
 lyra node install --install-format=$INSTANCE_OS 2>&1 | tee $TMP_DIR/INS_$INSTANCE_ID.sh
 chmod +x $TMP_DIR/INS_$INSTANCE_ID.sh
