@@ -5,7 +5,7 @@ export INSTANCE_ID=$1
 read SRV_NAME < srv_name
 #AUTOMATION_NAME=create_file_2
 AUTOMATION_NAME=limor-s4h-db
-AUTOMATION_REPO=https://github.wdf.sap.corp/c5240533/hana.git
+AUTOMATION_REPO=https://github.wdf.sap.corp/c5215768/hana.git
 REPO_REVISION=master
 RUNLIST="recipe[hana::install-s4h-db-cal]"
 ATTRIB_FILE=scripts/attributes_db.json
