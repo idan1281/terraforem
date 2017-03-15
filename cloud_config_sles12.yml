@@ -1,0 +1,10 @@
+#cloud-config
+
+runcmd:
+  - 'zypper ar -t rpm-md -G -c -n SLES12sp1-Install https://repo.eu-de-1.cloud.sap/suse/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/ SLES12sp1-Install'
+  - 'zypper ar -t rpm-md -G -c -n SLES12sp1-Updates https://repo.eu-de-1.cloud.sap/suse/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/ SLES12sp1-Updates'
+  - 'zypper ar -t rpm-md -G -c -n SLE-Module-Public-Cloud-Install https://repo.eu-de-1.cloud.sap/suse/SUSE/Products/SLE-Module-Public-Cloud/12/x86_64/product/ SLE-Module-Public-Cloud-Install'
+  - 'zypper ar -t rpm-md -G -c -n SLE-Module-Public-Cloud-Updates https://repo.eu-de-1.cloud.sap/suse/SUSE/Updates/SLE-Module-Public-Cloud/12/x86_64/update/ SLE-Module-Public-Cloud-Updates'
+  - 'zypper ar -t rpm-md -G -c -n SLES12sp1-SDK-Install https://repo.eu-de-1.cloud.sap/suse/SUSE/Products/SLE-SDK/12-SP1/x86_64/product/ SLES12sp1-SDK-Install'
+  - 'zypper ar -t rpm-md -G -c -n SLES12sp1-SDK-Updates https://repo.eu-de-1.cloud.sap/suse/SUSE/Updates/SLE-SDK/12-SP1/x86_64/update/ SLES12sp1-SDK-Updates'
+  - 'zypper ref'

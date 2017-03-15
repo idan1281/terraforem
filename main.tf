@@ -74,6 +74,8 @@ resource "openstack_compute_instance_v2" "db_instance"
     access_network = true
     # Whether to use this network to access the instance or provision
   }
+    #cloud-init Configuration
+  user_data = "${file("cloud_config_sles12.yml")}"
 }
   #Post Install Script after instance creation
   resource "null_resource" "db" {

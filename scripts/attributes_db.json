@@ -1,0 +1,13 @@
+{
+  "s4h": {
+    "version": "1506"
+  },
+  "hana": {
+    "sid": "H50",
+    "instance": "00",
+    "password": "Start1234",
+    "revision": "82",
+    "syspassword": "Start1234",
+    "checkhardware": "false"
+  }
+}
