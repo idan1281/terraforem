@@ -36,7 +36,7 @@ fi
 lyra node tag add --node-id $INSTANCE_ID name:s4h-app
 
 # Execute automation
-lyra automation execute --automation-id $AUTOMATION_ID --selector --selector='@identity="'$INSTANCE_ID'"' --watch 2>&1 | tee tmp/run_automation.txt
+lyra automation execute --automation-id $AUTOMATION_ID  --selector='@identity="'$INSTANCE_ID'"' --watch 2>&1 | tee tmp/run_automation.txt
 
 # Cleanup
 rm -f tmp/*.txt tmp/token_export.sh
