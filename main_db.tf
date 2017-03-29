@@ -11,8 +11,8 @@ variable "ssh_user_name" { default = "ccloud" }
 variable "ssh_key_path" { default = "/Users/c5240533/.ssh/id_rsa" } # On macOS, it is `/Users/<your_user_name>/.ssh/id_rsa`; on Windows `C:\Users\<your_user_name>\.ssh\id_rsa`
 
 # Provider section
-provider "openstack" {
-}
+#provider "openstack" {
+#}
 
 #create Disk for DB
 resource "openstack_blockstorage_volume_v2" "vol_db" {
@@ -32,10 +32,10 @@ resource "openstack_networking_floatingip_v2" "db_ip"
 ## installing DB server
 resource "openstack_compute_instance_v2" "db_instance"
 {
-  name = "limor-s4h-db"
+  name = "Idan-s4h-db"
   region = "${var.region}"
   image_name = "${var.image}"
-  flavor_id = "90"
+  flavor_id = "${var.db_flavor}"
   key_pair = "${var.key_pair}"
   security_groups = ["default"]
 
