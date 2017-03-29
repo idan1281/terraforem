@@ -35,6 +35,7 @@ resource "openstack_compute_instance_v2" "app_instance"
   flavor_id = "${var.app_flavor}"
   key_pair = "${var.key_pair}"
   security_groups = ["default"]
+  depends_on = ["openstack_compute_instance_v2.db_instance"]
 
   # Attach the Volume
   volume {
