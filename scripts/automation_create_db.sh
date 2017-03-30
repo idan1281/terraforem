@@ -27,7 +27,7 @@ AUTOMATION_ID=`awk -v auto_name=$AUTOMATION_NAME '$4==auto_name {print $2}' tmp/
 if [[ -z "$AUTOMATION_ID" ]]; then
   lyra automation create chef --name=$AUTOMATION_NAME --repository=$AUTOMATION_REPO \
     --runlist=$RUNLIST  --timeout=3000 \
-    --attributes-from-file=$ATTRIB_FILE --repository-revision=$REPO_REVISION --log-level=debug  2>&1 | tee tmp/automation_created.txt
+    --attributes-from-file=$ATTRIB_FILE --repository-revision=$REPO_REVISION --timeout=36000 --log-level=debug  2>&1 | tee tmp/automation_created.txt
   AUTOMATION_ID=`awk '$2=="id" {print $4}' tmp/automation_created.txt`
 fi
 
