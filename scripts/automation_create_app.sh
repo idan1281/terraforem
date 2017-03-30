@@ -7,7 +7,7 @@ AUTOMATION_NAME=s4h-app
 AUTOMATION_REPO=https://github.wdf.sap.corp/c5215768/saperp.git
 REPO_REVISION=master
 #RUNLIST="recipe[saperp::install-s4h-app-cal]recipe[sap-lvm::application]"
-RUNLIST="recipe[sap-lvm::application],recipe[saperp::install-s4h-app-cal]"
+RUNLIST="recipe[sapinst::_hostsfix],recipe[sap-lvm::application],recipe[saperp::install-s4h-app-cal]"
 ATTRIB_FILE=scripts/attributes_app.json
 
 
