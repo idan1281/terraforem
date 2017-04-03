@@ -43,5 +43,10 @@
      "sapdata_size": "220G",
      "user_sap_sid_size": "10G",
      "sapinst_size": "60G"
- }
-}
+ },
+   "sapinst": {
+     "db_tag": "test-s4h-db",
+     "app_tag": "test-s4h-app"
+   }
+}     
+

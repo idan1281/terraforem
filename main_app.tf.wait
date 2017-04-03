@@ -1,19 +1,3 @@
-# Variables section
-variable "region" { default = "eu-de-1" } #Other region `au-ap-1`
-variable "image" { default = "sles-12-sp1-amd64-vmware-build85" }
-variable "guest_os" { default = "linux" }
-variable "key_pair" { default = "Limor Gargir-Alpert" }
-variable "flavor" { default = "20" }
-variable "security_group" { default = "default" }
-# variable "web_ip" { default = "10.47.1.63" } # Provide the floating ip you have created already via dashboard. Comment this line if you are creating one using terraform.
-# variable "web_dns" { default = "web.consulting.c.eu-de-1.cloud.sap" } # You can pass this to script to automation scripts.
-variable "ssh_user_name" { default = "suse" } # This varies; for redhat - fedora; for sles - root
-variable "ssh_key_path" { default = "/Users/c5215768/.ssh/id_rsa" } # On macOS, it is `/Users/<your_user_name>/.ssh/id_rsa`; on Windows `C:\Users\<your_user_name>\.ssh\id_rsa`
-
-# Provider section
-provider "openstack" {
-}
-
 #Create Disk for App
 resource "openstack_blockstorage_volume_v2" "vol_app" {
  region = "${var.region}"
@@ -21,27 +5,21 @@ resource "openstack_blockstorage_volume_v2" "vol_app" {
  description = "Volume for App server"
  size = 161 # in Giga Byte
 }
-
-# reserve FIP for app
+# create an FIP for app
 resource "openstack_networking_floatingip_v2" "app_ip"
 {
         pool = "FloatingIP-internal-monsoon3"
 }
-
-
-
-  ####################
-
-
 
 resource "openstack_compute_instance_v2" "app_instance"
 {
   name = "idan-s4h-app"
   region = "${var.region}"
   image_name = "${var.image}"
-  flavor_id = "40"
+  flavor_id = "${var.app_flavor}"
   key_pair = "${var.key_pair}"
   security_groups = ["default"]
+#  depends_on = ["null_resource.db"]
 
   # Attach the Volume
   volume {
@@ -49,14 +27,14 @@ resource "openstack_compute_instance_v2" "app_instance"
     volume_id = "${openstack_blockstorage_volume_v2.vol_app.id}"
 }
   # Connection details
-  connection 
+  connection
   {
       user = "${ var.ssh_user_name }"
       private_key = "${file("${var.ssh_key_path}")}"
       agent = false
   }
 
-  #nova meta-data 
+  #nova meta-data
   metadata
   {
     color = "red"
@@ -64,7 +42,7 @@ resource "openstack_compute_instance_v2" "app_instance"
   }
 
   # Create an internal ip and attach floating ip to it
-  network 
+  network
   {
     uuid = "431361d3-e329-4f1b-9135-2819a3e9c6cd"
     name = "Private-corp-sap-shared-01"
@@ -86,7 +64,7 @@ resource "null_resource" "app" {
   connection {
     host = "${ openstack_networking_floatingip_v2.app_ip.address  }"
     user     = "${ var.ssh_user_name }"
-    private_key = "${file("${var.ssh_key_path}")}"
+        private_key = "${file("${var.ssh_key_path}")}"
     agent = false
   }
 
@@ -103,6 +81,15 @@ resource "null_resource" "app" {
       ]
   }
 
+# export the server name to a file
+#  provisioner "local-exec" {
+#        command = "echo ${openstack_compute_instance_v2.app_instance.name} >> scripts/srv_name"
+#    }
+
+# run a script to read the server name from the file created in previous step and generate attribute file in json format
+#  provisioner  "local-exec" "create_json_script" {
+#    command = "scripts/create_json_script.sh"
+#}
 
   # Copy the three lines arc install script to target instance and run it from there
   provisioner "remote-exec" {
@@ -115,7 +102,7 @@ resource "null_resource" "app" {
   }
 }
 
-output "web_metadata_category" 
+output "web_metadata_category"
 {
   value = "${openstack_compute_instance_v2.app_instance.metadata.catagory}"
 }
@@ -124,7 +111,7 @@ output "web_metadata_category"
 output "app_instance_id"
 {
   value = "${openstack_compute_instance_v2.app_instance.id}"
-} 
+}
 
 # Use `terraform output web_instance_name` to retrieve the value
 output "app_instance_name"

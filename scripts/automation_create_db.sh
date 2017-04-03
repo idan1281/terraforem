@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 # Make sure you source the openrc file before executing this script locally
 export INSTANCE_ID=$1
+export DB_TAG=$2
 
 read SRV_NAME < srv_name
-#AUTOMATION_NAME=create_file_2
 AUTOMATION_NAME=s4h-db
 AUTOMATION_REPO=https://github.wdf.sap.corp/c5215768/hana.git
 REPO_REVISION=master
 RUNLIST="recipe[hana::install-s4h-db-cal]"
-ATTRIB_FILE=scripts/attributes_db.json
-#ATTRIB_FILE="/Users/c5240533/dev/terraform/s4h_terraform/scripts/attributes_db.json"
+ATTRIB_FILE=json/test_db_attributes.json
 
 # authentication using lyra to get token
 lyra authenticate 2>&1 | tee tmp/token_export.sh
@@ -33,7 +32,8 @@ fi
 
 
 #Add tag to server
-lyra node tag add --node-id $INSTANCE_ID name:s4h-db
+#lyra node tag add --node-id $INSTANCE_ID name:s4h-db
+lyra node tag add --node-id $INSTANCE_ID name:$DB_TAG
 # Execute automation
 lyra automation execute --automation-id $AUTOMATION_ID --selector='@identity="'$INSTANCE_ID'"' --watch 2>&1 | tee tmp/run_automation.txt
 

@@ -65,6 +65,11 @@ resource "openstack_compute_instance_v2" "db_instance"
       agent = false
     }
 
+    # run a script to read the server name from the file created in previous step and generate attribute file in json format
+    provisioner  "local-exec" "create_db_json_script" {
+      command = "scripts/create_db_json_script.sh ${ var.db_tag }"
+    }
+
     # Calling lyra_install script which takes care of lyra client installation locally.
     provisioner "local-exec" "call_lyra_script" {
       command = "scripts/lyra_install.sh ${openstack_compute_instance_v2.db_instance.id} ${ var.guest_os }"
@@ -85,9 +90,11 @@ resource "openstack_compute_instance_v2" "db_instance"
 
     # Execute and watch create_file_2 automation
     provisioner "local-exec" "call_automation_script" {
-      command = "scripts/automation_create_db.sh ${openstack_compute_instance_v2.db_instance.id}"
+      command = "scripts/automation_create_db.sh ${openstack_compute_instance_v2.db_instance.id} ${ var.db_tag }"
     }
   }
+
+#########  APP creation #########
 
 #Create Disk for App
 resource "openstack_blockstorage_volume_v2" "vol_app" {
@@ -159,6 +166,17 @@ resource "null_resource" "app" {
     agent = false
   }
 
+    # run a script to generate attribute file in json format for the hostfix automation
+  provisioner  "local-exec" "create_app_json_script" {
+     command = "scripts/create_hostfix_json_script.sh ${ var.db_tag } ${var.app_tag}"
+    }
+
+
+  # run a script to generate attribute file in json format for the  app automation
+  provisioner  "local-exec" "create_app_json_script" {
+     command = "scripts/create_app_json_script.sh ${ var.db_tag } ${ var.app_tag }"
+    }
+
  # Calling lyra_install script which takes care of lyra client installation locally.
   provisioner  "local-exec" "call_lyra_script" {
     command = "scripts/lyra_install.sh ${openstack_compute_instance_v2.app_instance.id} ${ var.guest_os }"
@@ -172,16 +190,6 @@ resource "null_resource" "app" {
       ]
   }
 
-# export the server name to a file
-#  provisioner "local-exec" {
-#        command = "echo ${openstack_compute_instance_v2.app_instance.name} >> scripts/srv_name"
-#    }
-
-# run a script to read the server name from the file created in previous step and generate attribute file in json format
-#  provisioner  "local-exec" "create_json_script" {
-#    command = "scripts/create_json_script.sh"
-#}
-
   # Copy the three lines arc install script to target instance and run it from there
   provisioner "remote-exec" {
     script = "tmp/INS_${openstack_compute_instance_v2.app_instance.id}.sh"
@@ -189,7 +197,7 @@ resource "null_resource" "app" {
 
   # Execute and watch create_file_2 automation
   provisioner  "local-exec" "call_automation_script" {
-    command = "scripts/automation_create_app.sh ${openstack_compute_instance_v2.app_instance.id}"
+    command = "scripts/automation_create_app.sh ${openstack_compute_instance_v2.app_instance.id} ${ var.app_tag }"
   }
 }
 

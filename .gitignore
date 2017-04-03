@@ -1,2 +1,4 @@
 tmp/*
 *.tfstate
+*.tfstate.backup
+*.png
