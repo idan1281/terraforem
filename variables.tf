@@ -12,3 +12,4 @@ variable "ssh_user_name" { default = "ccloud" }
 variable "ssh_key_path" { default = "/Users/c5240533/.ssh/id_rsa" } # On macOS, it is `/Users/<your_user_name>/.ssh/id_rsa`; on Windows `C:\Users\<your_user_name>\.ssh\id_rsa`
 variable "db_tag" { default = "test-s4h-db" }
 variable "app_tag" { default = "test-s4h-app"}
+variable "enabled_dns" { default = "false"}

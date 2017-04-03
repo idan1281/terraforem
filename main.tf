@@ -149,7 +149,7 @@ resource "openstack_compute_instance_v2" "app_instance"
   }
 
   #cloud-init Configuration
-  user_data = "${file("cloud_config_rhel7.yml")}"
+  user_data = "${file("cloud_config/cloud_config_rhel7.yml")}"
 }
 
 #Post Install Script after instance creation

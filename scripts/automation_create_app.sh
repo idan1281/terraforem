@@ -6,7 +6,7 @@ export APP_TAG=$2
 read SRV_NAME < srv_name
 
 # HOSTFIX automation
-HOSTFIX_AUTOMATION=_hostsifx
+HOSTFIX_AUTOMATION=hostsifx
 HOSTFIX_REPO=https://github.wdf.sap.corp/c5215768/sapinst.git
 HOSTFIX_REVISION=master
 HOSTFIX_RUNLIST="recipe[sapinst::_hostsfix]"
