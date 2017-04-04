@@ -9,7 +9,7 @@ then
   echo "no need to for hostfix because you have DNS enabled"
 else
 # HOSTFIX automation
-HOSTFIX_AUTOMATION=hostsifx
+HOSTFIX_AUTOMATION=hostsifx-auto
 HOSTFIX_REPO=https://github.wdf.sap.corp/cc-chef-cookbooks/sapinst.git
 HOSTFIX_REVISION=master
 HOSTFIX_RUNLIST="recipe[sapinst::_hostsfix]"

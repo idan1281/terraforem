@@ -19,7 +19,7 @@ resource "openstack_networking_floatingip_v2" "db_ip"
 ## installing DB server
 resource "openstack_compute_instance_v2" "db_instance"
 {
-  name = "Idan-s4h-db"
+  name = "demo-s4h-db"
   region = "${var.region}"
   image_name = "${var.image}"
   flavor_id = "${var.db_flavor}"
@@ -111,7 +111,7 @@ resource "openstack_networking_floatingip_v2" "app_ip"
 
 resource "openstack_compute_instance_v2" "app_instance"
 {
-  name = "idan-s4h-app"
+  name = "demo-s4h-app"
   region = "${var.region}"
   image_name = "${var.image}"
   flavor_id = "${var.app_flavor}"

@@ -3,7 +3,7 @@
 export INSTANCE_ID=$1
 export DB_TAG=$2
 
-AUTOMATION_NAME=s4h-db
+AUTOMATION_NAME=s4h-db-auto
 AUTOMATION_REPO=https://github.wdf.sap.corp/cc-chef-cookbooks/hana.git
 REPO_REVISION=master
 RUNLIST="recipe[hana::install-s4h-db-cal]"
