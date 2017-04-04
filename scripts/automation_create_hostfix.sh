@@ -10,7 +10,7 @@ then
 else
 # HOSTFIX automation
 HOSTFIX_AUTOMATION=hostsifx
-HOSTFIX_REPO=https://github.wdf.sap.corp/c5215768/sapinst.git
+HOSTFIX_REPO=https://github.wdf.sap.corp/cc-chef-cookbooks/sapinst.git
 HOSTFIX_REVISION=master
 HOSTFIX_RUNLIST="recipe[sapinst::_hostsfix]"
 HOSTFIX_ATTRIB_FILE=json/hostfix_attributes.json

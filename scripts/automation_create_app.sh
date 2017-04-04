@@ -5,7 +5,7 @@ export APP_TAG=$2
 
 # APP automation
 AUTOMATION_NAME=s4h-app
-AUTOMATION_REPO=https://github.wdf.sap.corp/c5215768/saperp.git
+AUTOMATION_REPO=https://github.wdf.sap.corp/cc-chef-cookbooks/saperp.git
 REPO_REVISION=master
 #RUNLIST="recipe[saperp::install-s4h-app-cal]recipe[sap-lvm::application]"
 RUNLIST="recipe[sap-lvm::application],recipe[saperp::install-s4h-app-cal]"
