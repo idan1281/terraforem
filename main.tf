@@ -166,13 +166,18 @@ resource "null_resource" "app" {
     agent = false
   }
 
+  # Calling lyra_install script which takes care of lyra client installation locally.
+    provisioner "local-exec" "call_lyra_script" {
+      command = "scripts/lyra_install.sh ${openstack_compute_instance_v2.app_instance.id} ${ var.guest_os }"
+    }
+
     # run a script to generate attribute file in json format for the hostfix automation
-  provisioner  "local-exec" "create_app_json_script" {
-     command = "scripts/create_hostfix_json_script.sh ${ var.db_tag } ${var.app_tag}"
+    provisioner "local-exec" "create_app_json_script" {
+      command = "scripts/create_hostfix_json_script.sh ${ var.db_tag } ${var.app_tag} ${var.dns_enabled}"
     }
 
 
-  # run a script to generate attribute file in json format for the  app automation
+  # run a script to generate attribute file in json format for the app automation
   provisioner  "local-exec" "create_app_json_script" {
      command = "scripts/create_app_json_script.sh ${ var.db_tag } ${ var.app_tag }"
     }
@@ -195,7 +200,12 @@ resource "null_resource" "app" {
     script = "tmp/INS_${openstack_compute_instance_v2.app_instance.id}.sh"
   }
 
-  # Execute and watch create_file_2 automation
+  # Execute and watch create the HOSTFIX automation
+  provisioner  "local-exec" "call_automation_script" {
+    command = "scripts/automation_create_hostfix.sh ${openstack_compute_instance_v2.app_instance.id} ${ var.app_tag } ${var.dns_enabled}"
+  }
+
+  # Execute and watch create the APP automation
   provisioner  "local-exec" "call_automation_script" {
     command = "scripts/automation_create_app.sh ${openstack_compute_instance_v2.app_instance.id} ${ var.app_tag }"
   }

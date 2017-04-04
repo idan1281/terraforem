@@ -3,7 +3,6 @@
 export INSTANCE_ID=$1
 export DB_TAG=$2
 
-read SRV_NAME < srv_name
 AUTOMATION_NAME=s4h-db
 AUTOMATION_REPO=https://github.wdf.sap.corp/c5215768/hana.git
 REPO_REVISION=master
@@ -36,7 +35,6 @@ fi
 lyra node tag add --node-id $INSTANCE_ID name:$DB_TAG
 # Execute automation
 lyra automation execute --automation-id $AUTOMATION_ID --selector='@identity="'$INSTANCE_ID'"' --watch 2>&1 | tee tmp/run_automation.txt
-
 
 # Cleanup
 #rm -f tmp/*.txt tmp/token_export.sh
