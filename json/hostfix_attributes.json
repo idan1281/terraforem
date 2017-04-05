@@ -1,6 +1,6 @@
 {
     "sapinst": {
-        "db_tag": "test-s4h-db",
-        "app_tag": "test-s4h-app"
+        "db_tag": "s4h-db",
+        "app_tag": "s4h-app"
     }
 }

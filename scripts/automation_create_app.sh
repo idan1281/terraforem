@@ -9,7 +9,7 @@ AUTOMATION_REPO=https://github.wdf.sap.corp/cc-chef-cookbooks/saperp.git
 REPO_REVISION=master
 #RUNLIST="recipe[saperp::install-s4h-app-cal]recipe[sap-lvm::application]"
 RUNLIST="recipe[sap-lvm::application],recipe[saperp::install-s4h-app-cal]"
-ATTRIB_FILE=json/test_app_attributes.json
+ATTRIB_FILE=json/demo_app_attributes.json
 
 # authentication using lyra to get token
 lyra authenticate 2>&1 | tee tmp/token_export.sh
@@ -32,7 +32,7 @@ if [[ -z "$AUTOMATION_ID" ]]; then
 fi
 
 #Add tag to server
-lyra node tag add --node-id $INSTANCE_ID name:$APP_TAG
+lyra node tag add --node-id $INSTANCE_ID tag:$APP_TAG
 
 # Execute automation
 lyra automation execute --automation-id $HOSTFIX_AUTOMATION_ID  --selector='@identity="'$INSTANCE_ID'"' --watch 2>&1 | tee tmp/run_automation.txt

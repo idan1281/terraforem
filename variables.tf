@@ -13,3 +13,4 @@ variable "ssh_key_path" { default = "/Users/c5240533/.ssh/id_rsa" } # On macOS, 
 variable "db_tag" { default = "s4h-db" }
 variable "app_tag" { default = "s4h-app"}
 variable "dns_enabled" { default = "false"}
+variable "hana_revision" { default = "82"}

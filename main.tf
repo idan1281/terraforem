@@ -67,7 +67,7 @@ resource "openstack_compute_instance_v2" "db_instance"
 
     # run a script to read the server name from the file created in previous step and generate attribute file in json format
     provisioner  "local-exec" "create_db_json_script" {
-      command = "scripts/create_db_json_script.sh ${ var.db_tag }"
+      command = "scripts/create_db_json_script.sh ${ var.db_tag } ${ var.app_tag }${ var.hana_revision }"
     }
 
     # Calling lyra_install script which takes care of lyra client installation locally.

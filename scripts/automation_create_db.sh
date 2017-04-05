@@ -2,12 +2,11 @@
 # Make sure you source the openrc file before executing this script locally
 export INSTANCE_ID=$1
 export DB_TAG=$2
-
 AUTOMATION_NAME=s4h-db-auto
 AUTOMATION_REPO=https://github.wdf.sap.corp/cc-chef-cookbooks/hana.git
 REPO_REVISION=master
 RUNLIST="recipe[hana::install-s4h-db-cal]"
-ATTRIB_FILE=json/test_db_attributes.json
+ATTRIB_FILE=json/demo_db_attributes.json
 
 # authentication using lyra to get token
 lyra authenticate 2>&1 | tee tmp/token_export.sh
@@ -31,8 +30,8 @@ fi
 
 
 #Add tag to server
-#lyra node tag add --node-id $INSTANCE_ID name:s4h-db
-lyra node tag add --node-id $INSTANCE_ID name:$DB_TAG
+lyra node tag add --node-id $INSTANCE_ID tag:$DB_TAG
+
 # Execute automation
 lyra automation execute --automation-id $AUTOMATION_ID --selector='@identity="'$INSTANCE_ID'"' --watch 2>&1 | tee tmp/run_automation.txt
 

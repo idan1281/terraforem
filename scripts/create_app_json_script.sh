@@ -4,7 +4,7 @@ export APP_TAG=$2
 
 #create attribute file
 
-cat > json/test_app_attributes.json << EOF
+cat > json/demo_app_attributes.json << EOF
 {
   "saperp": {
     "version": "1506",

@@ -37,7 +37,7 @@ if [[ -z "$HOSTFIX_AUTOMATION_ID" ]]; then
 fi
 
 #Add tag to server
-lyra node tag add --node-id $INSTANCE_ID name:$APP_TAG
+lyra node tag add --node-id $INSTANCE_ID tag:$APP_TAG
 
 # Execute automation
 lyra automation execute --automation-id $HOSTFIX_AUTOMATION_ID  --selector='@identity="'$INSTANCE_ID'"' --watch 2>&1 | tee tmp/run_automation.txt

@@ -17,7 +17,7 @@
     "sapinst_size": "60G"
   },
   "sapinst": {
-    "db_tag": "test-s4h-db",
+    "db_tag": "s4h-db",
     "app_tag": ""
   }
 }

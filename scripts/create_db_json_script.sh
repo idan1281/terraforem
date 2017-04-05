@@ -1,10 +1,11 @@
 #!/bin/bash
 export DB_HOST=$1
 export APP_HOST=$2
+export HANA_REVISION=$3
 
 #create attribute file
 
-cat > json/test_db_attributes.json << EOF
+cat > json/demo_db_attributes.json << EOF
 {
   "s4h": {
     "version": "1506"
@@ -13,7 +14,7 @@ cat > json/test_db_attributes.json << EOF
     "sid": "H50",
     "instance": "00",
     "password": "Start1234",
-    "revision": "82",
+    "revision": "$HANA_REVISION",
     "syspassword": "Start1234",
     "checkhardware": "false"
   },
