@@ -1,13 +1,14 @@
 #!/bin/bash
 export DB_TAG=$1
 export APP_TAG=$2
+export SAPERP_VERSION=$3
 
 #create attribute file
 
 cat > json/demo_app_attributes.json << EOF
 {
   "saperp": {
-    "version": "1506",
+    "version": "$SAPERP_VERSION",
     "db": {
       "sid": "H50",
       "instid": "02",

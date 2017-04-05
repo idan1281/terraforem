@@ -14,3 +14,4 @@ variable "db_tag" { default = "s4h-db" }
 variable "app_tag" { default = "s4h-app"}
 variable "dns_enabled" { default = "false"}
 variable "hana_revision" { default = "82"}
+variable "s4h_version" { default = "1506"} #in app json it is referenced as SAPERP_VERSION

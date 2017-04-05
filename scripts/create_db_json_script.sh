@@ -2,13 +2,14 @@
 export DB_HOST=$1
 export APP_HOST=$2
 export HANA_REVISION=$3
+export S4H_VERSION=$4
 
 #create attribute file
 
 cat > json/demo_db_attributes.json << EOF
 {
   "s4h": {
-    "version": "1506"
+    "version": "$S4H_VERSION"
   },
   "hana": {
     "sid": "H50",
