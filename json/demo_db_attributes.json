@@ -18,6 +18,6 @@
   },
   "sapinst": {
     "db_tag": "s4h-db",
-    "app_tag": ""
+    "app_tag": "s4h-app"
   }
 }
