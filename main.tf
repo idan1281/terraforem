@@ -172,7 +172,7 @@ resource "null_resource" "app" {
     }
 
     # run a script to generate attribute file in json format for the hostfix automation
-    provisioner "local-exec" "create_app_json_script" {
+    provisioner "local-exec" "create_hostfix_json_script" {
       command = "scripts/create_hostfix_json_script.sh ${ var.db_tag } ${var.app_tag} ${var.dns_enabled}"
     }
 
@@ -182,10 +182,6 @@ resource "null_resource" "app" {
      command = "scripts/create_app_json_script.sh ${ var.db_tag } ${ var.app_tag } ${ var.s4h_version }"
     }
 
- # Calling lyra_install script which takes care of lyra client installation locally.
-  provisioner  "local-exec" "call_lyra_script" {
-    command = "scripts/lyra_install.sh ${openstack_compute_instance_v2.app_instance.id} ${ var.guest_os }"
-  }
 
  # Script to run on target instance to clean up previous arc installation, useful for subsequent provisions.
   provisioner  "remote-exec" {
@@ -222,7 +218,19 @@ output "app_instance_id"
   value = "${openstack_compute_instance_v2.app_instance.id}"
 }
 
-# Use `terraform output web_instance_name` to retrieve the value
+# Use `terraform output DB_instance_name` to retrieve the value
+output "app_instance_name"
+{
+  value = "${openstack_compute_instance_v2.db_instance.name}"
+}
+
+# Use `terraform output web_instance_id` to retrieve the value
+output "app_instance_id"
+{
+  value = "${openstack_compute_instance_v2.db_instance.id}"
+}
+
+# Use `terraform output APP_instance_name` to retrieve the value
 output "app_instance_name"
 {
   value = "${openstack_compute_instance_v2.app_instance.name}"
