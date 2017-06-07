@@ -8,6 +8,7 @@ resource "openstack_blockstorage_volume_v2" "vol_db" {
  name = "vol_db"
  description = "Volume for DB server"
  size = 301 # in Giga Byte
+ availability_zone = "${var.availability_zone}"
 }
 
 # create an FIP for DB
@@ -25,6 +26,7 @@ resource "openstack_compute_instance_v2" "db_instance"
   flavor_id = "${var.db_flavor}"
   key_pair = "${var.key_pair}"
   security_groups = ["default"]
+  availability_zone = "${var.availability_zone}"
 
   # Attach the Volume
   volume {
