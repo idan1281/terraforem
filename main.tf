@@ -219,13 +219,13 @@ output "app_instance_id"
 }
 
 # Use `terraform output DB_instance_name` to retrieve the value
-output "app_instance_name"
+output "db_instance_name"
 {
   value = "${openstack_compute_instance_v2.db_instance.name}"
 }
 
 # Use `terraform output web_instance_id` to retrieve the value
-output "app_instance_id"
+output "db_instance_id"
 {
   value = "${openstack_compute_instance_v2.db_instance.id}"
 }
