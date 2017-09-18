@@ -2,4 +2,4 @@ tmp/*
 *.tfstate
 *.tfstate.backup
 *.png
-*openrc*
+openrc*
