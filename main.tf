@@ -2,19 +2,23 @@
 provider "openstack" {
 }
 
+data "openstack_networking_network_v2" "network" {
+ name = "${var.private_network}"
+}
+
 #create Disk for DB
 resource "openstack_blockstorage_volume_v2" "vol_db" {
  region = "${var.region}"
  name = "vol_db"
  description = "Volume for DB server"
- size = 301 # in Giga Byte
- availability_zone = "${var.availability_zone}"
+ size = 3 # in Giga Byte
+# availability_zone = "${var.availability_zone}"
 }
 
 # create an FIP for DB
 resource "openstack_networking_floatingip_v2" "db_ip"
 {
-        pool = "FloatingIP-internal-monsoon3"
+        pool = "FloatingIP-external-monsoon3-03"
 }
 
 ## installing DB server
@@ -26,7 +30,7 @@ resource "openstack_compute_instance_v2" "db_instance"
   flavor_id = "${var.db_flavor}"
   key_pair = "${var.key_pair}"
   security_groups = ["default"]
-  availability_zone = "${var.availability_zone}"
+ # availability_zone = "${var.availability_zone}"
 
   # Attach the Volume
   volume {
@@ -45,8 +49,7 @@ resource "openstack_compute_instance_v2" "db_instance"
   # Create an internal ip and attach floating ip to it
   network
   {
-    uuid = "431361d3-e329-4f1b-9135-2819a3e9c6cd"
-    name = "Private-corp-sap-shared-01"
+    uuid = "${data.openstack_networking_network_v2.network.id}" 
     floating_ip = "${openstack_networking_floatingip_v2.db_ip.address}"
     access_network = true
     # Whether to use this network to access the instance or provision
@@ -103,12 +106,12 @@ resource "openstack_blockstorage_volume_v2" "vol_app" {
  region = "${var.region}"
  name = "vol_app"
  description = "Volume for App server"
- size = 161 # in Giga Byte
+ size = 1 # in Giga Byte
 }
-# create an FIP for app
+#creating an FIP for app
 resource "openstack_networking_floatingip_v2" "app_ip"
 {
-        pool = "FloatingIP-internal-monsoon3"
+        pool = "FloatingIP-external-monsoon3-03"
 }
 
 resource "openstack_compute_instance_v2" "app_instance"
@@ -119,7 +122,7 @@ resource "openstack_compute_instance_v2" "app_instance"
   flavor_id = "${var.app_flavor}"
   key_pair = "${var.key_pair}"
   security_groups = ["default"]
-#  depends_on = ["null_resource.db"]
+  depends_on = ["null_resource.db"]
 
   # Attach the Volume
   volume {
@@ -144,8 +147,7 @@ resource "openstack_compute_instance_v2" "app_instance"
   # Create an internal ip and attach floating ip to it
   network
   {
-    uuid = "431361d3-e329-4f1b-9135-2819a3e9c6cd"
-    name = "Private-corp-sap-shared-01"
+    uuid = "${data.openstack_networking_network_v2.network.id}"
     floating_ip = "${openstack_networking_floatingip_v2.app_ip.address}"
     access_network = true # Whether to use this network to access the instance or provision
   }
